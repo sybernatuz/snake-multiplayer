@@ -4,14 +4,14 @@ from random import randrange
 def move():
     global x
     global y,pX,pY
-    global snake1, snake2
+    global snake_player1, snake_player2
     can.delete('all')
-    moveSnake(snake1, 1)
-    moveSnake(snake2, 2)
+    moveSnake(snake_player1, 1, direction_player1)
+    moveSnake(snake_player2, 2, direction_player2)
     if flag != 0:
         fen.after(60, move)
 
-def moveSnake(snake, player):
+def moveSnake(snake, player, direction):
     i=len(snake)-1
     j=0
     while i > 0:
@@ -22,25 +22,24 @@ def moveSnake(snake, player):
  
     can.create_rectangle(pX, pY, pX+5, pY+5, outline='green', fill='black')
      
-    if direction  == 'gauche' + str(player):
+    if direction  == 'gauche':
         snake[0][0]  = snake[0][0] - dx
         if snake[0][0] < 0:
             snake[0][0] = 493
-    elif direction  == 'droite' + str(player):
+    elif direction  == 'droite':
         snake[0][0]  = snake[0][0] + dx
         if snake[0][0] > 493:
             snake[0][0] = 0
-    elif direction  == 'haut' + str(player):
+    elif direction  == 'haut':
         snake[0][1]  = snake[0][1] - dy
         if snake[0][1] < 0:
             snake[0][1] = 493
-    elif direction  == 'bas' + str(player):
+    elif direction  == 'bas':
         snake[0][1]  = snake[0][1] + dy
         if snake[0][1] > 493:
             snake[0][1] = 0
-    can.create_oval(snake[0][0], snake[0][1], snake[0][0]+10, snake[0][1]+10,outline='green', fill='blue')
-    test(snake)
-    test(snake)
+    can.create_oval(snake[0][0], snake[0][1], snake[0][0]+10, snake[0][1]+10,outline='green', fill= 'red' if player==1 else 'blue')
+    isApleTacked(snake)
     
 def newGame():
     global pX,pY
@@ -50,33 +49,45 @@ def newGame():
     move()
  
 
-def test(snake):
+def isApleTacked(snake):
     global pomme
     global x,y,pX,pY
-    if snake[1][0]>pX-7 and  snake[1][0]<pX+7:        
+    if snake[1][0]>pX-7 and snake[1][0]<pX+7:        
         if snake[1][1]>pY-7 and snake[1][1]<pY+7:
             #On remet une pomme au hasard
             pX = randrange(5, 495)
             pY = randrange(5, 495)
-            can.coords(pomme,pX, pY, pX+5, pY+5)
-            #On joute un nouveau point au serpent
+            can.coords(pomme,pX , pY, pX+5, pY+5)
+            #On ajoute un nouveau point au serpent
             snake.append([0,0])
             
 def left(event, player):
-    global direction
-    direction = 'gauche' + str(player)
+    global direction_player1, direction_player2
+    if (player == 1):
+        direction_player1 = 'gauche'
+    else:
+        direction_player2 = 'gauche'
          
 def right(event, player):
-    global direction
-    direction = 'droite' + str(player)
+    global direction_player1, direction_player2
+    if (player == 1):
+        direction_player1 = 'droite'
+    else:
+        direction_player2 = 'droite'
          
 def up(event, player):
-    global direction
-    direction = 'haut' + str(player)
+    global direction_player1, direction_player2
+    if (player == 1):
+        direction_player1 = 'haut'
+    else:
+        direction_player2 = 'haut'
          
 def down(event, player):
-    global direction
-    direction = 'bas' + str(player)
+    global direction_player1, direction_player2
+    if (player == 1):
+        direction_player1 = 'bas'
+    else:
+        direction_player2 = 'bas'
     
 def initializeMovement(fen):
     fen.bind('<d>', lambda event : right(event, 1))
@@ -93,22 +104,17 @@ x = 245
 y = 24        
 dx, dy = 10, 10
 flag = 0
-direction = 'haut'
-snake1=[[x,y],[x+2.5,y+2.5],[x+5,y+5],[0,0]]
-snake2=[[x,y],[x+2.5,y+2.5],[x+5,y+5],[0,0]]
+direction_player1 = 'haut'
+direction_player2 = 'bas'
+snake_player1=[[x,y],[x+2.5,y+2.5],[x+5,y+5],[0,0]]
+snake_player2=[[x,y],[x+2.5,y+2.5],[x+5,y+5],[0,0]]
  
 pX = randrange(5, 495)
 pY = randrange(5, 495)
  
 fen = Tk()
 can = Canvas(fen, width=500, height=500, bg='black')
-can.pack(side=TOP, padx=5, pady=5) 
- 
-oval_snake_player1_head = can.create_oval(snake1[1][0], snake1[1][1], snake1[1][0] +10, snake1[1][1]+10, outline='green', fill='red')
-oval_snake_palyer1  = can.create_oval(snake1[0][0], snake1[0][1], snake1[0][0]+10, snake1[0][1]+10, outline='green', fill='green')
-
-oval_snake_player2_head = can.create_oval(snake2[1][0], snake2[1][1], snake2[1][0] +10, snake2[1][1]+10, outline='blue', fill='orange')
-oval_snake_palyer2  = can.create_oval(snake2[0][0], snake2[0][1], snake2[0][0]+10, snake2[0][1]+10, outline='blue', fill='blue')
+can.pack(side=TOP, padx=5, pady=5)
 
 pomme = can.create_rectangle(pX, pY, pX+5, pY+5, outline='green', fill='black')
  
