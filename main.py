@@ -58,6 +58,8 @@ def addNewApple(can):
     global pX,pY
     pX = randrange(5, 495)
     pY = randrange(5, 495)
+    if 'apple' not in locals():
+    	return can.create_rectangle(pX, pY, pX+5, pY+5, outline='green', fill='black')
     can.coords(apple, pX, pY, pX+5, pY+5)
 
 def setDirection(event, player, direction):
@@ -91,10 +93,6 @@ fen = Tk()
 can = Canvas(fen, width=500, height=500, bg='black')
 can.pack(side=TOP, padx=5, pady=5)
 
-pX = randrange(5, 495)
-pY = randrange(5, 495)
-apple = can.create_rectangle(pX, pY, pX+5, pY+5, outline='green', fill='black')
- 
 b1 = Button(fen, text='Lancer', command=newGame, bg='black' , fg='green')
 b1.pack(side=LEFT, padx=5, pady=5)
  
@@ -103,6 +101,8 @@ b2.pack(side=RIGHT, padx=5, pady =5)
  
 tex1 = Label(fen, text="Cliquez sur 'New Game' pour commencer le jeu.", bg='black' , fg='green')
 tex1.pack(padx=0, pady=11)
+
+apple = addNewApple(can);
 
 initializeMovement(fen)
 
