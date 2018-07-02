@@ -40,7 +40,7 @@ class Snake:
 			if self.snake[0][0] > 495:
 				self.snake[0][0] = 0
 		elif direction == 'haut':
-			self.snake[0][1] = self.snake[0][1] - dybordure qui en face
+			self.snake[0][1] = self.snake[0][1] - dy
 			if self.snake[0][1] < 0:
 				self.snake[0][1] = 495
 		elif direction == 'bas':
@@ -51,11 +51,11 @@ class Snake:
 	""" Verify if the snake touch the second snake. 
 	If he do it end the game """
 	def check_collision(self, snake2, flag):
-		for i in range(len(snake2)):
-			check_x = (self.snake[0][0] > snake2[i][0] - 7 
-						and self.snake[0][0] < snake2[i][0] + 7)
-			check_y = (self.snake[0][1] > snake2[i][1] - 7
-						and self.snake[0][1] < snake2[i][1] + 7)
+		for i in range(len(snake2.snake)):
+			check_x = (self.snake[0][0] > snake2.snake[i][0] - 7 
+						and self.snake[0][0] < snake2.snake[i][0] + 7)
+			check_y = (self.snake[0][1] > snake2.snake[i][1] - 7
+						and self.snake[0][1] < snake2.snake[i][1] + 7)
 			if flag != 0 and check_x and check_y:
 				print(str(self.player) + 'gagne')
 				return 0

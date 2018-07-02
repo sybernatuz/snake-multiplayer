@@ -2,13 +2,13 @@ from tkinter import *
 from models.snake import Snake
 from models.apple import Apple
  
- """ Make the snakes """
+""" Make the snakes """
 def move():
     can.delete('all')
     move_snake(snake_player1, direction_player1)
     move_snake(snake_player2, direction_player2)
     if flag != 0:
-        fen.after(60, move)
+        window.after(60, move)
 
 """ Move the snake according to the direction """
 def move_snake(snake, direction):
@@ -16,9 +16,9 @@ def move_snake(snake, direction):
     snake.display_snake_body(can)
     snake.set_position(direction, dx, dy)
     snake.display_snake_head(can)
-    flag = snake_player1.check_collision(snake_player2.snake, flag)
+    flag = snake_player1.check_collision(snake_player2, flag)
     if flag != 0:
-        flag = snake_player2.check_collision(snake_player1.snake, flag)
+        flag = snake_player2.check_collision(snake_player1, flag)
     apple.add_apple(can, snake)
 
 """ Start the game """
@@ -37,16 +37,32 @@ def set_direction(event, player, direction):
         direction_player2 = direction
 
 """ Initialize players key binding """
-def initialize_movement(fen):
-    fen.bind('<d>', lambda event : set_direction(event, 1, 'droite'))
-    fen.bind('<q>', lambda event : set_direction(event, 1, 'gauche'))
-    fen.bind('<z>', lambda event : set_direction(event, 1, 'haut'))
-    fen.bind('<s>', lambda event : set_direction(event, 1, 'bas'))
+def initialize_movement(window):
+    window.bind('<d>', lambda event : set_direction(event, 1, 'droite'))
+    window.bind('<q>', lambda event : set_direction(event, 1, 'gauche'))
+    window.bind('<z>', lambda event : set_direction(event, 1, 'haut'))
+    window.bind('<s>', lambda event : set_direction(event, 1, 'bas'))
 
-    fen.bind('<l>', lambda event : set_direction(event, 2, 'droite'))
-    fen.bind('<j>', lambda event : set_direction(event, 2, 'gauche'))
-    fen.bind('<i>', lambda event : set_direction(event, 2, 'haut'))
-    fen.bind('<k>', lambda event : set_direction(event, 2, 'bas'))
+    window.bind('<l>', lambda event : set_direction(event, 2, 'droite'))
+    window.bind('<j>', lambda event : set_direction(event, 2, 'gauche'))
+    window.bind('<i>', lambda event : set_direction(event, 2, 'haut'))
+    window.bind('<k>', lambda event : set_direction(event, 2, 'bas'))
+	
+""" create the window with buttons and text """
+def initialize_window(window):
+	can = Canvas(window, width=500, height=500, bg='black')
+	can.pack(side=TOP, padx=5, pady=5)
+
+	b1 = Button(window, text='Lancer', command=new_game, bg='black' , fg='green')
+	b1.pack(side=LEFT, padx=5, pady=5)
+	 
+	b2 = Button(window, text='Quitter', command=window.destroy, bg='black' , fg='green')
+	b2.pack(side=RIGHT, padx=5, pady =5)
+	 
+	tex1 = Label(window, text="Cliquez sur 'New Game' pour commencer le jeu.", 
+				 bg='black' , fg='green')
+	tex1.pack(padx=0, pady=11)
+	return can
 
 dx, dy = 10, 10
 flag = 0
@@ -56,25 +72,13 @@ snake_player1 = Snake(245, 25, 1)
 snake_player2 = Snake(245, 475, 2)
 apple = Apple()
 
- 
-fen = Tk()
-can = Canvas(fen, width=500, height=500, bg='black')
-can.pack(side=TOP, padx=5, pady=5)
-
-b1 = Button(fen, text='Lancer', command=new_game, bg='black' , fg='green')
-b1.pack(side=LEFT, padx=5, pady=5)
- 
-b2 = Button(fen, text='Quitter', command=fen.destroy, bg='black' , fg='green')
-b2.pack(side=RIGHT, padx=5, pady =5)
- 
-tex1 = Label(fen, text="Cliquez sur 'New Game' pour commencer le jeu.", 
-			 bg='black' , fg='green')
-tex1.pack(padx=0, pady=11)
+window = Tk()
+can = initialize_window(window)
 
 apple.add_apple(can, None)
 
-initialize_movement(fen)
+initialize_movement(window)
 
-fen.mainloop()
+window.mainloop()
 
 
