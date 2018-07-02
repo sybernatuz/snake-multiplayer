@@ -62,7 +62,8 @@ b1.pack(side=LEFT, padx=5, pady=5)
 b2 = Button(fen, text='Quitter', command=fen.destroy, bg='black' , fg='green')
 b2.pack(side=RIGHT, padx=5, pady =5)
  
-tex1 = Label(fen, text="Cliquez sur 'New Game' pour commencer le jeu.", bg='black' , fg='green')
+tex1 = Label(fen, text="Cliquez sur 'New Game' pour commencer le jeu.", 
+			 bg='black' , fg='green')
 tex1.pack(padx=0, pady=11)
 
 apple.addApple(can, None)
