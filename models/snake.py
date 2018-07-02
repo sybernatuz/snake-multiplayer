@@ -1,5 +1,6 @@
 class Snake:
 	
+	""" Initialize a new snake with his head position and the player """
 	def __init__(self, x1, y1, player):
 		head = [x1,y1]
 		self.snake = [
@@ -10,7 +11,7 @@ class Snake:
 		]
 		self.player = player
 		
-		
+	""" For each snake part print a circle to represent the body """
 	def display_snake_body(self, can):
 		for i in range(len(self.snake)-1, 0, -1):
 			self.snake[i][0] = self.snake[i-1][0]
@@ -19,13 +20,16 @@ class Snake:
 				self.snake[i][0], self.snake[i][1],
 				self.snake[i][0]+10, self.snake[i][1]+10,
 				outline='green', fill='black')
-			
+	
+	""" Display the snake head """
 	def display_snake_head(self, can):
 		headColor = 'red' if self.player == 1 else 'blue'
 		x = self.snake[0][0]
 		y = self.snake[0][1]
 		can.create_oval(x, y, x+10, y+10, outline='green', fill=headColor)
-		
+	
+	""" Set the position of the snake to the border that is in 
+	front when he exceeds the window size """
 	def set_position(self, direction, dx, dy):
 		if direction == 'gauche':
 			self.snake[0][0] = self.snake[0][0] - dx
@@ -36,7 +40,7 @@ class Snake:
 			if self.snake[0][0] > 495:
 				self.snake[0][0] = 0
 		elif direction == 'haut':
-			self.snake[0][1] = self.snake[0][1] - dy
+			self.snake[0][1] = self.snake[0][1] - dybordure qui en face
 			if self.snake[0][1] < 0:
 				self.snake[0][1] = 495
 		elif direction == 'bas':
@@ -44,6 +48,8 @@ class Snake:
 			if self.snake[0][1] > 495:
 				self.snake[0][1] = 0
 	
+	""" Verify if the snake touch the second snake. 
+	If he do it end the game """
 	def check_collision(self, snake2, flag):
 		for i in range(len(snake2)):
 			check_x = (self.snake[0][0] > snake2[i][0] - 7 
@@ -54,6 +60,7 @@ class Snake:
 				print(str(self.player) + 'gagne')
 				return 0
 		return 1
-				
+	
+	""" Add one part to the snake body """
 	def increase_body_length(self):
 		self.snake.append([0,0])

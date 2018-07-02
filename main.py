@@ -2,6 +2,7 @@ from tkinter import *
 from models.snake import Snake
 from models.apple import Apple
  
+ """ Make the snakes """
 def move():
     can.delete('all')
     move_snake(snake_player1, direction_player1)
@@ -9,6 +10,7 @@ def move():
     if flag != 0:
         fen.after(60, move)
 
+""" Move the snake according to the direction """
 def move_snake(snake, direction):
     global flag
     snake.display_snake_body(can)
@@ -18,20 +20,23 @@ def move_snake(snake, direction):
     if flag != 0:
         flag = snake_player2.check_collision(snake_player1.snake, flag)
     apple.add_apple(can, snake)
-	
+
+""" Start the game """
 def new_game():
     global flag
     if flag == 0:
         flag = 1
     move()
-
+	
+""" Change the snake user direction when press a key """
 def set_direction(event, player, direction):
     global direction_player1, direction_player2
     if (player == 1):
         direction_player1 = direction
     else:
         direction_player2 = direction
-    
+
+""" Initialize players key binding """
 def initialize_movement(fen):
     fen.bind('<d>', lambda event : set_direction(event, 1, 'droite'))
     fen.bind('<q>', lambda event : set_direction(event, 1, 'gauche'))
