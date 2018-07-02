@@ -46,10 +46,10 @@ class Snake:
 	
 	def check_collision(self, snake2, flag):
 		for i in range(len(snake2)):
-			check_x = self.snake[0][0] > snake2[i][0] - 7 
-					  and self.snake[0][0] < snake2[i][0] + 7
-			check_y = self.snake[0][1] > snake2[i][1] - 7
-					  and self.snake[0][1] < snake2[i][1] + 7
+			check_x = (self.snake[0][0] > snake2[i][0] - 7 
+						and self.snake[0][0] < snake2[i][0] + 7)
+			check_y = (self.snake[0][1] > snake2[i][1] - 7
+						and self.snake[0][1] < snake2[i][1] + 7)
 			if flag != 0 and check_x and check_y:
 				print(str(self.player) + 'gagne')
 				return 0
