@@ -1,8 +1,8 @@
 class Snake:
 	
 	""" Initialize a new snake with his head position and the player """
-	def __init__(self, x1, y1, player):
-		head = [x1,y1]
+	def __init__(self, x, y, player):
+		head = [x,y]
 		self.snake = [
 			head,
 			[0,0],
@@ -23,13 +23,14 @@ class Snake:
 	
 	""" Display the snake head """
 	def display_snake_head(self, can):
-		headColor = 'red' if self.player == 1 else 'blue'
+		headColor = self.get_head_color(self.player)
 		x = self.snake[0][0]
 		y = self.snake[0][1]
 		can.create_oval(x, y, x+10, y+10, outline='green', fill=headColor)
 	
-	""" Set the position of the snake to the border that is in 
-	front when he exceeds the window size """
+	""" Set the position of the snake by adding the speed.
+	The position is set to the border that is in 
+	front if he exceeds the window size """
 	def set_position(self, direction, dx, dy):
 		if direction == 'gauche':
 			self.snake[0][0] = self.snake[0][0] - dx
@@ -50,12 +51,19 @@ class Snake:
 	
 	""" Verify if the snake touch the second snake. 
 	If he does it end the game by returning flag to 0 """
-	def check_collision(self, snake2, flag):
-		collision_with_other_snake = self.is_collision_with_snake_body(snake2.snake)
-		collision_with_himself = self.is_collision_with_snake_body(self.snake)
-		if flag == 0 or collision_with_other_snake or collision_with_himself:
+	def check_collision(self, snakes, flag, temp_snakes):
+		for key, value in snakes.items():
+			collision_with_other_snake = self.is_collision_with_snake_body(value.snake)
+			if collision_with_other_snake:
+				if len(snakes) > 2:
+					del temp_snakes[self.player]
+					return 1
+				else :
+					winner = self.get_winner(snakes)
+					break
+		if flag == 0 or collision_with_other_snake:
 			if flag != 0:
-				print(str(snake2.player) + 'gagne')
+				print(self.get_head_color(winner) + ' gagne')
 			return 0
 		return 1
 
@@ -73,3 +81,16 @@ class Snake:
 	""" Add one part to the snake body """
 	def increase_body_length(self):
 		self.snake.append([0,0])
+
+	def get_head_color(self, player):
+		return {
+			1 : 'red',
+			2 : 'blue',
+			3 : 'white',
+			4 : 'orange'
+		}.get(player)
+
+	def get_winner(self, snakes):
+		for key in snakes:
+			if key != self.player:
+				return key
