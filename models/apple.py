@@ -10,7 +10,7 @@ class Apple:
 	""" Add an apple at the same place if she isn't tacked. 
 	Else move the apple and add part to the snake """
 	def add_apple(self, can, snake):
-		if snake == None or not self.is_apple_tacked(snake.snake):
+		if snake is None or not self.is_apple_tacked(snake.snake):
 			return can.create_rectangle(
 										self.x, self.y, 
 										self.x + 5, self.y + 5, 

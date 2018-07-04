@@ -17,8 +17,7 @@ def move_snake(snake, direction):
     snake.set_position(direction, dx, dy)
     snake.display_snake_head(can)
     flag = snake_player1.check_collision(snake_player2, flag)
-    if flag != 0:
-        flag = snake_player2.check_collision(snake_player1, flag)
+    flag = snake_player2.check_collision(snake_player1, flag)
     apple.add_apple(can, snake)
 
 """ Start the game """

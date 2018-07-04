@@ -49,17 +49,26 @@ class Snake:
 				self.snake[0][1] = 0
 	
 	""" Verify if the snake touch the second snake. 
-	If he do it end the game """
+	If he does it end the game by returning flag to 0 """
 	def check_collision(self, snake2, flag):
-		for i in range(len(snake2.snake)):
-			check_x = (self.snake[0][0] > snake2.snake[i][0] - 7 
-						and self.snake[0][0] < snake2.snake[i][0] + 7)
-			check_y = (self.snake[0][1] > snake2.snake[i][1] - 7
-						and self.snake[0][1] < snake2.snake[i][1] + 7)
-			if flag != 0 and check_x and check_y:
-				print(str(self.player) + 'gagne')
-				return 0
+		collision_with_other_snake = self.is_collision_with_snake_body(snake2.snake)
+		collision_with_himself = self.is_collision_with_snake_body(self.snake)
+		if flag == 0 or collision_with_other_snake or collision_with_himself:
+			if flag != 0:
+				print(str(snake2.player) + 'gagne')
+			return 0
 		return 1
+
+	""" Check the collision between the self snake head and the 
+	parameter wich is a snake body"""
+	def is_collision_with_snake_body(self, snake):
+		for i in range(1, len(snake)):
+			check_x = (self.snake[0][0] > snake[i][0] - 7 
+						and self.snake[0][0] < snake[i][0] + 7)
+			check_y = (self.snake[0][1] > snake[i][1] - 7
+						and self.snake[0][1] < snake[i][1] + 7)
+			if check_x and check_y:
+				return True
 	
 	""" Add one part to the snake body """
 	def increase_body_length(self):
