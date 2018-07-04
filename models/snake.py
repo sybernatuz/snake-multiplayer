@@ -62,8 +62,8 @@ class Snake:
 					winner = self.get_winner(snakes)
 					break
 		if flag == 0 or collision_with_other_snake:
-			if flag != 0:
-				print(self.get_head_color(winner) + ' gagne')
+			if flag != 0 and winner is not None:
+				print(winner + ' gagne')
 			return 0
 		return 1
 
@@ -93,4 +93,4 @@ class Snake:
 	def get_winner(self, snakes):
 		for key in snakes:
 			if key != self.player:
-				return key
+				return self.get_head_color(key)
