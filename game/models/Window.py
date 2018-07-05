@@ -5,8 +5,9 @@ class Window(Tk):
 	""" initialize the new apple with random coordinates """
 	def __init__(self, game):
 		Tk.__init__(self)
-		self.can = self.initialize_window(game)
+		self.initialize_window_elements(game)
 		self.initialize_movement(game)
+		self.initialize_window_options()
 
 	""" Initialize players key binding """
 	def initialize_movement(self, game):
@@ -31,25 +32,52 @@ class Window(Tk):
 		self.bind('<h>', lambda event : game.set_direction(event, 4, 'bas'))
 
 	""" create the window with buttons and text """
-	def initialize_window(self, game):
-		can = Canvas(self, width=500, height=500, bg='black')
-		can.pack(side=TOP, padx=5, pady=5)
+	def initialize_window_elements(self, game):
+		self.can = Canvas(self, width=500, height=500, bg='black')
+		self.can.pack(side=TOP, padx=5, pady=5)
 
-		b1 = Button(self, text='Lancer', command=lambda: self.number_of_players(game),
+		self.b1 = Button(self, text='Lancer', 
+					command=lambda: [
+										self.number_of_players(game), 
+										self.b1.destroy()
+									],
 	                bg='black' , fg='green')
-		b1.pack(side=LEFT, padx=5, pady=5)
+		self.b1.pack(side=LEFT, padx=5, pady=5)
 		 
-		b2 = Button(self, text='Quitter', command=self.destroy, 
+		self.b2 = Button(self, text='Quitter', command=self.destroy, 
 	                bg='black' , fg='green')
-		b2.pack(side=RIGHT, padx=5, pady=5)
-		 
-		return can
+		self.b2.pack(side=RIGHT, padx=5, pady=5)
+
+	""" set the window options """
+	def initialize_window_options(self):
+		self.resizable(0, 0)
 
 	""" Display button to make the choise of the players number """
 	def number_of_players(self, game):
-		tex1 = Label(self, text="Nombre de joueurs", bg='black' , fg='green')
-		tex1.pack(side=LEFT, padx=25, pady=5)
+		self.text = Label(self, text="Nombre de joueurs", bg='black' , fg='green')
+		self.text.pack(side=LEFT, padx=5, pady=5)
+		self.buttons = []
 		for i in range(1, 5):
-			Button(self, text=i, command=lambda i=i: game.new_game(i), 
-                        bg='black' , fg='green').pack(side=LEFT, padx=5, pady=5)
+			b = Button(self, text=i, 
+						command=lambda i=i: [
+												game.new_game(i), 
+												self.destroy_number_of_players_elements_on_click()
+											], 
+                        bg='black' , fg='green')
+			b.pack(side=LEFT, padx=5, pady=5)
+			self.buttons.append(b)
 
+	def destroy_number_of_players_elements_on_click(self):
+		for button in self.buttons:
+			button.destroy()
+		self.text.destroy()
+
+	def add_play_again_button(self, game):
+		button = Button(self, text='Relancer', 
+					command=lambda: self.reset_game(game),
+	                bg='black' , fg='green')
+		button.pack(side=LEFT, padx=5, pady=5)
+
+	def reset_game(self, game):
+		self.destroy()
+		game.__init__()

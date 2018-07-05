@@ -6,7 +6,7 @@ class Launcher:
 
     """ Initialize the game with all the snakes and their directions """
     def __init__(self):
-        self.flag = 0
+        self.flag = 1
         self.directions = {
             1 : 'bas',
             2 : 'haut',
@@ -33,6 +33,8 @@ class Launcher:
         self.snakes = temp_snakes
         if self.flag != 0:
             self.window.after(60, self.move)
+        else:
+            self.window.add_play_again_button(self)
 
     """ Move the snake according to the direction
     and add a the apple """
@@ -46,8 +48,6 @@ class Launcher:
     """ Start the game """
     def new_game(self, players_number):
         self.set_players_number(players_number)
-        if self.flag == 0:
-            self.flag = 1
         self.move()
 
     """ Set the players number by delete snakes according to the number"""
