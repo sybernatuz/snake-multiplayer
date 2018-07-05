@@ -23,7 +23,7 @@ class Snake:
 	
 	""" Display the snake head """
 	def display_snake_head(self, can):
-		headColor = self.get_head_color(self.player)
+		headColor = self.get_head_color()
 		x = self.snake[0][0]
 		y = self.snake[0][1]
 		can.create_oval(x, y, x+10, y+10, outline='green', fill=headColor)
@@ -56,15 +56,12 @@ class Snake:
 		for key, value in snakes.items():
 			collision_with_snake_body = self.is_collision_with_snake_body(value.snake)
 			if collision_with_snake_body:
+				del temp_snakes[self.player]
 				if len(snakes) > 2:
-					del temp_snakes[self.player]
 					return 1
 				else :
-					winner = self.get_winner(snakes)
 					break
 		if flag == 0 or collision_with_snake_body:
-			if flag != 0 and winner is not None:
-				print(winner + ' gagne')
 			return 0
 		return 1
 
@@ -84,16 +81,11 @@ class Snake:
 		self.snake.append([0,0])
 
 	""" get the head color according to the player number"""
-	def get_head_color(self, player):
+	def get_head_color(self):
 		return {
 			1 : 'red',
 			2 : 'blue',
 			3 : 'white',
 			4 : 'orange'
-		}.get(player)
+		}.get(self.player)
 
-	""" Get the color of the winner by get the last snake alive """
-	def get_winner(self, snakes):
-		for key in snakes:
-			if key != self.player:
-				return self.get_head_color(key)

@@ -43,11 +43,13 @@ class Window(Tk):
 										self.b1.destroy()
 									],
 	                bg='black', fg='green')
-		self.b1.pack(side=LEFT, padx=5, pady=5)
-		 
+		self.b1.pack()
+		self.b1.place(x=20, y=545)
+
 		self.b2 = Button(self, text='Quitter', command=self.destroy, 
 	                bg='black' , fg='green')
-		self.b2.pack(side=RIGHT, padx=5, pady=5)
+		self.b2.pack()
+		self.b2.place(x=430, y=545)
 
 	""" set the window options """
 	def initialize_window_options(self):
@@ -57,7 +59,7 @@ class Window(Tk):
 
 	""" Display button to make the choise of the players number """
 	def number_of_players(self, game):
-		self.text = Label(self, text="Nombre de joueurs", bg='black' , fg='green')
+		self.text = Label(self, text="Nombre de joueurs", fg='green')
 		self.text.pack(side=LEFT, padx=5, pady=5)
 		self.buttons = []
 		for i in range(1, 5):
@@ -72,16 +74,21 @@ class Window(Tk):
 
 	def insert_winner_input(self, game):
 		self.can.destroy()
+		self.winner_text = Label(self, text="Nom du vainqeur" , fg='green')
+		self.winner_text.pack(side=LEFT, padx=5, pady=5)
+		self.winner_text.place(x=100, y=300)
+
 		self.winner_input = Entry(self, width=10)
-		self.winner_input.pack(side=TOP, padx=5, pady=5)
+		self.winner_input.pack()
+		self.winner_input.place(x=200, y=300)
 		self.winner_button = Button(self, text='Valider', 
 									command=lambda: [
 														game.insert_win(self.winner_input.get()),
 														self.destroy_winner_elements_on_click()
 													],
 					                bg='black' , fg='green')
-		self.winner_button.pack(side=TOP, padx=5, pady=5)
-
+		self.winner_button.pack()
+		self.winner_button.place(x=270, y=295)
 
 	def destroy_number_of_players_elements_on_click(self):
 		for button in self.buttons:
@@ -91,23 +98,32 @@ class Window(Tk):
 	def destroy_winner_elements_on_click(self):
 		self.winner_input.destroy()
 		self.winner_button.destroy()
+		self.winner_text.destroy()
 
 	def add_play_again_button(self, game):
 		button = Button(self, text='Relancer', 
 					command=lambda: self.reset_game(game),
 	                bg='black' , fg='green')
 		button.pack(side=LEFT, padx=5, pady=5)
+		button.place(x=20, y=545)
 
 	def reset_game(self, game):
 		self.destroy()
 		game.__init__()
 
 	def display_score_board(self, players):
-		self.board = ttk.Treeview(self, columns=("win"))
-		self.board.column("win", width=100)
-		self.board.heading("win", text="Victoires")
+		text_board = Label(self, text="Tableau des scores" , fg='green')
+		text_board.pack(side=TOP, padx=5, pady=5)
+		board = ttk.Treeview(self, columns=("win"))
+		board.column("win", width=100)
+		board.heading("win", text="Victoires")
 
 		for player, win in players:
-			self.board.insert("", 0, text=player, values=(win))
+			board.insert("", 0, text=player, values=(win))
 
-		self.board.pack(side=TOP, padx=5, pady=5)
+		board.pack(side=TOP, padx=5, pady=5)
+
+	def display_winner(self, winner_color):
+		text_board = Label(self, text=winner_color + " gagne" , fg='green', font=("Arial", 20))
+		text_board.pack()
+		text_board.place(x=180, y=400)
