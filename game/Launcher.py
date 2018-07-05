@@ -1,6 +1,7 @@
 from game.models.Snake import Snake
 from game.models.Apple import Apple
 from game.models.Window import Window
+from game.database.SqlLiteManager import *
 
 class Launcher:
 
@@ -20,9 +21,11 @@ class Launcher:
             4 : Snake(475, 245, 4)
         }
         self.apple = Apple()
+        self.sqlManager = SqlLiteManager()
         self.window = Window(self)
         self.apple.add_apple(self.window.can, None)
         self.window.mainloop()
+
 
     """ Move every snakes who are alive """
     def move(self):
@@ -31,10 +34,15 @@ class Launcher:
         for key in self.snakes:
             self.move_snake(self.snakes[key], self.directions[key], self.snakes, temp_snakes)
         self.snakes = temp_snakes
-        if self.flag != 0:
+        if self.flag == 1:
             self.window.after(60, self.move)
         else:
-            self.window.add_play_again_button(self)
+            self.game_over()     
+
+    def game_over(self):
+        self.window.add_play_again_button(self)
+        self.window.display_score_board(self.sqlManager.find_all())
+        self.window.insert_winner_input(self)
 
     """ Move the snake according to the direction
     and add a the apple """
@@ -62,4 +70,7 @@ class Launcher:
     """ Change the snake user direction when press a key """
     def set_direction(self, event, player, direction):
         self.directions[player] = direction
+
+    def insert_win(self, player):
+        self.sqlManager.insert(player)
 

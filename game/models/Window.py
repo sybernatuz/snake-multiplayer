@@ -1,13 +1,14 @@
 from tkinter import *
+from tkinter import ttk
 
 class Window(Tk):
 
 	""" initialize the new apple with random coordinates """
 	def __init__(self, game):
 		Tk.__init__(self)
+		self.initialize_window_options()
 		self.initialize_window_elements(game)
 		self.initialize_movement(game)
-		self.initialize_window_options()
 
 	""" Initialize players key binding """
 	def initialize_movement(self, game):
@@ -41,7 +42,7 @@ class Window(Tk):
 										self.number_of_players(game), 
 										self.b1.destroy()
 									],
-	                bg='black' , fg='green')
+	                bg='black', fg='green')
 		self.b1.pack(side=LEFT, padx=5, pady=5)
 		 
 		self.b2 = Button(self, text='Quitter', command=self.destroy, 
@@ -51,6 +52,8 @@ class Window(Tk):
 	""" set the window options """
 	def initialize_window_options(self):
 		self.resizable(0, 0)
+		self.geometry("500x600")
+		self.pack_propagate(0)
 
 	""" Display button to make the choise of the players number """
 	def number_of_players(self, game):
@@ -67,10 +70,27 @@ class Window(Tk):
 			b.pack(side=LEFT, padx=5, pady=5)
 			self.buttons.append(b)
 
+	def insert_winner_input(self, game):
+		self.can.destroy()
+		self.winner_input = Entry(self, width=10)
+		self.winner_input.pack(side=TOP, padx=5, pady=5)
+		self.winner_button = Button(self, text='Valider', 
+									command=lambda: [
+														game.insert_win(self.winner_input.get()),
+														self.destroy_winner_elements_on_click()
+													],
+					                bg='black' , fg='green')
+		self.winner_button.pack(side=TOP, padx=5, pady=5)
+
+
 	def destroy_number_of_players_elements_on_click(self):
 		for button in self.buttons:
 			button.destroy()
 		self.text.destroy()
+
+	def destroy_winner_elements_on_click(self):
+		self.winner_input.destroy()
+		self.winner_button.destroy()
 
 	def add_play_again_button(self, game):
 		button = Button(self, text='Relancer', 
@@ -81,3 +101,13 @@ class Window(Tk):
 	def reset_game(self, game):
 		self.destroy()
 		game.__init__()
+
+	def display_score_board(self, players):
+		self.board = ttk.Treeview(self, columns=("win"))
+		self.board.column("win", width=100)
+		self.board.heading("win", text="Victoires")
+
+		for player, win in players:
+			self.board.insert("", 0, text=player, values=(win))
+
+		self.board.pack(side=TOP, padx=5, pady=5)
