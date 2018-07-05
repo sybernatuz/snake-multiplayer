@@ -31,21 +31,22 @@ class Snake:
 	""" Set the position of the snake by adding the speed.
 	The position is set to the border that is in 
 	front if he exceeds the window size """
-	def set_position(self, direction, dx, dy):
+	def set_position(self, direction):
+		speed = 10
 		if direction == 'gauche':
-			self.snake[0][0] = self.snake[0][0] - dx
+			self.snake[0][0] = self.snake[0][0] - speed
 			if self.snake[0][0] < 0:
 				self.snake[0][0] = 495
 		elif direction == 'droite':
-			self.snake[0][0] = self.snake[0][0] + dx
+			self.snake[0][0] = self.snake[0][0] + speed
 			if self.snake[0][0] > 495:
 				self.snake[0][0] = 0
 		elif direction == 'haut':
-			self.snake[0][1] = self.snake[0][1] - dy
+			self.snake[0][1] = self.snake[0][1] - speed
 			if self.snake[0][1] < 0:
 				self.snake[0][1] = 495
 		elif direction == 'bas':
-			self.snake[0][1] = self.snake[0][1] + dy
+			self.snake[0][1] = self.snake[0][1] + speed
 			if self.snake[0][1] > 495:
 				self.snake[0][1] = 0
 	
@@ -53,15 +54,15 @@ class Snake:
 	If he does it end the game by returning flag to 0 """
 	def check_collision(self, snakes, flag, temp_snakes):
 		for key, value in snakes.items():
-			collision_with_other_snake = self.is_collision_with_snake_body(value.snake)
-			if collision_with_other_snake:
+			collision_with_snake_body = self.is_collision_with_snake_body(value.snake)
+			if collision_with_snake_body:
 				if len(snakes) > 2:
 					del temp_snakes[self.player]
 					return 1
 				else :
 					winner = self.get_winner(snakes)
 					break
-		if flag == 0 or collision_with_other_snake:
+		if flag == 0 or collision_with_snake_body:
 			if flag != 0 and winner is not None:
 				print(winner + ' gagne')
 			return 0
@@ -82,6 +83,7 @@ class Snake:
 	def increase_body_length(self):
 		self.snake.append([0,0])
 
+	""" get the head color according to the player number"""
 	def get_head_color(self, player):
 		return {
 			1 : 'red',
@@ -90,6 +92,7 @@ class Snake:
 			4 : 'orange'
 		}.get(player)
 
+	""" Get the color of the winner by get the last snake alive """
 	def get_winner(self, snakes):
 		for key in snakes:
 			if key != self.player:
