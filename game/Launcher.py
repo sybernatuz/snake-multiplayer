@@ -40,6 +40,7 @@ class Launcher:
             winner_color = list(self.snakes.values())[0].get_head_color() if len(self.snakes) > 0 else None 
             self.game_over(winner_color)     
 
+    """ Display the element when the game is over """
     def game_over(self, winner_color):
         self.window.add_play_again_button(self)
         self.window.display_score_board(self.sqlManager.find_all())
@@ -47,7 +48,7 @@ class Launcher:
             self.window.display_winner(winner_color)
             self.window.insert_winner_input(self)
 
-
+    """ Destroy the current window and make an ohter"""
     def reset_game(self):
         self.window.destroy()
         self.__init__()
@@ -79,6 +80,7 @@ class Launcher:
     def set_direction(self, event, player, direction):
         self.directions[player] = direction
 
+    """ Add the winner name to SQLLite"""
     def insert_win(self, player):
         self.sqlManager.insert(player)
 

@@ -72,6 +72,7 @@ class Window(Tk):
 			b.pack(side=LEFT, padx=5, pady=5)
 			self.buttons.append(b)
 
+	""" Add the elements to permit at the user to add a winner """
 	def insert_winner_input(self, game):
 		self.winner_text = Label(self, text="Nom du vainqeur" , fg='green')
 		self.winner_text.pack(side=LEFT, padx=5, pady=5)
@@ -89,16 +90,19 @@ class Window(Tk):
 		self.winner_button.pack()
 		self.winner_button.place(x=270, y=295)
 
+	""" Destroy the elements on references with the number of player when the button is clicked """
 	def destroy_number_of_players_elements_on_click(self):
 		for button in self.buttons:
 			button.destroy()
 		self.text.destroy()
 
+	""" Destroy the elements on references with the winner when the button is clicked """
 	def destroy_winner_elements_on_click(self):
 		self.winner_input.destroy()
 		self.winner_button.destroy()
 		self.winner_text.destroy()
 
+	""" Add a button to play again """
 	def add_play_again_button(self, game):
 		button = Button(self, text='Relancer', 
 					command=lambda: game.reset_game(),
@@ -106,6 +110,7 @@ class Window(Tk):
 		button.pack(side=LEFT, padx=5, pady=5)
 		button.place(x=20, y=545)
 
+	""" Display the score board with the players and theirs vicotries"""
 	def display_score_board(self, players):
 		self.can.destroy()
 		text_board = Label(self, text="Tableau des scores" , fg='green')
@@ -119,6 +124,7 @@ class Window(Tk):
 
 		board.pack(side=TOP, padx=5, pady=5)
 
+	""" Display the winner color"""
 	def display_winner(self, winner_color):
 		text_board = Label(self, text=winner_color + " gagne" , fg='green', font=("Arial", 20))
 		text_board.pack()
