@@ -37,13 +37,20 @@ class Launcher:
         if self.flag == 1:
             self.window.after(60, self.move)
         else:
-            self.game_over(list(self.snakes.values())[0].get_head_color())     
+            winner_color = list(self.snakes.values())[0].get_head_color() if len(self.snakes) > 0 else None 
+            self.game_over(winner_color)     
 
     def game_over(self, winner_color):
-        self.window.display_winner(winner_color)
         self.window.add_play_again_button(self)
         self.window.display_score_board(self.sqlManager.find_all())
-        self.window.insert_winner_input(self)
+        if winner_color is not None:
+            self.window.display_winner(winner_color)
+            self.window.insert_winner_input(self)
+
+
+    def reset_game(self):
+        self.window.destroy()
+        self.__init__()
 
     """ Move the snake according to the direction
     and add a the apple """

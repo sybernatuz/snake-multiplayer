@@ -73,7 +73,6 @@ class Window(Tk):
 			self.buttons.append(b)
 
 	def insert_winner_input(self, game):
-		self.can.destroy()
 		self.winner_text = Label(self, text="Nom du vainqeur" , fg='green')
 		self.winner_text.pack(side=LEFT, padx=5, pady=5)
 		self.winner_text.place(x=100, y=300)
@@ -102,16 +101,13 @@ class Window(Tk):
 
 	def add_play_again_button(self, game):
 		button = Button(self, text='Relancer', 
-					command=lambda: self.reset_game(game),
+					command=lambda: game.reset_game(),
 	                bg='black' , fg='green')
 		button.pack(side=LEFT, padx=5, pady=5)
 		button.place(x=20, y=545)
 
-	def reset_game(self, game):
-		self.destroy()
-		game.__init__()
-
 	def display_score_board(self, players):
+		self.can.destroy()
 		text_board = Label(self, text="Tableau des scores" , fg='green')
 		text_board.pack(side=TOP, padx=5, pady=5)
 		board = ttk.Treeview(self, columns=("win"))
