@@ -10,10 +10,10 @@ class Launcher:
         self.flag = 1
         self.one_player = False
         self.directions = {
-            1 : 'bas',
-            2 : 'haut',
-            3 : 'droite',
-            4 : 'gauche'
+            1 : 'down',
+            2 : 'up',
+            3 : 'right',
+            4 : 'left'
         }
         self.snakes = {
             1 : Snake(245, 25, 1),

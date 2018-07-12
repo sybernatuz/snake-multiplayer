@@ -12,25 +12,25 @@ class Window(Tk):
 
 	""" Initialize players key binding """
 	def initialize_movement(self, game):
-		self.bind('<d>', lambda event : game.set_direction(event, 1, 'droite'))
-		self.bind('<q>', lambda event : game.set_direction(event, 1, 'gauche'))
-		self.bind('<z>', lambda event : game.set_direction(event, 1, 'haut'))
-		self.bind('<s>', lambda event : game.set_direction(event, 1, 'bas'))
+		self.bind('<d>', lambda event : game.set_direction(event, 1, 'right'))
+		self.bind('<q>', lambda event : game.set_direction(event, 1, 'left'))
+		self.bind('<z>', lambda event : game.set_direction(event, 1, 'up'))
+		self.bind('<s>', lambda event : game.set_direction(event, 1, 'down'))
 
-		self.bind('<m>', lambda event : game.set_direction(event, 2, 'droite'))
-		self.bind('<k>', lambda event : game.set_direction(event, 2, 'gauche'))
-		self.bind('<o>', lambda event : game.set_direction(event, 2, 'haut'))
-		self.bind('<l>', lambda event : game.set_direction(event, 2, 'bas'))
+		self.bind('<m>', lambda event : game.set_direction(event, 2, 'right'))
+		self.bind('<k>', lambda event : game.set_direction(event, 2, 'left'))
+		self.bind('<o>', lambda event : game.set_direction(event, 2, 'up'))
+		self.bind('<l>', lambda event : game.set_direction(event, 2, 'down'))
 
-		self.bind('<Right>', lambda event : game.set_direction(event, 3, 'droite'))
-		self.bind('<Left>', lambda event : game.set_direction(event, 3, 'gauche'))
-		self.bind('<Up>', lambda event : game.set_direction(event, 3, 'haut'))
-		self.bind('<Down>', lambda event : game.set_direction(event, 3, 'bas'))
+		self.bind('<Right>', lambda event : game.set_direction(event, 3, 'right'))
+		self.bind('<Left>', lambda event : game.set_direction(event, 3, 'left'))
+		self.bind('<Up>', lambda event : game.set_direction(event, 3, 'up'))
+		self.bind('<Down>', lambda event : game.set_direction(event, 3, 'down'))
 
-		self.bind('<j>', lambda event : game.set_direction(event, 4, 'droite'))
-		self.bind('<g>', lambda event : game.set_direction(event, 4, 'gauche'))
-		self.bind('<y>', lambda event : game.set_direction(event, 4, 'haut'))
-		self.bind('<h>', lambda event : game.set_direction(event, 4, 'bas'))
+		self.bind('<j>', lambda event : game.set_direction(event, 4, 'right'))
+		self.bind('<g>', lambda event : game.set_direction(event, 4, 'left'))
+		self.bind('<y>', lambda event : game.set_direction(event, 4, 'up'))
+		self.bind('<h>', lambda event : game.set_direction(event, 4, 'down'))
 
 	""" create the window with buttons and text """
 	def initialize_window_elements(self, game):

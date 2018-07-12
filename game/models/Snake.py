@@ -33,19 +33,19 @@ class Snake:
 	front if he exceeds the window size """
 	def set_position(self, direction):
 		speed = 10
-		if direction == 'gauche':
+		if direction == 'left':
 			self.snake[0][0] = self.snake[0][0] - speed
 			if self.snake[0][0] < 0:
 				self.snake[0][0] = 495
-		elif direction == 'droite':
+		elif direction == 'right':
 			self.snake[0][0] = self.snake[0][0] + speed
 			if self.snake[0][0] > 495:
 				self.snake[0][0] = 0
-		elif direction == 'haut':
+		elif direction == 'up':
 			self.snake[0][1] = self.snake[0][1] - speed
 			if self.snake[0][1] < 0:
 				self.snake[0][1] = 495
-		elif direction == 'bas':
+		elif direction == 'down':
 			self.snake[0][1] = self.snake[0][1] + speed
 			if self.snake[0][1] > 495:
 				self.snake[0][1] = 0
@@ -69,10 +69,10 @@ class Snake:
 	parameter wich is a snake body"""
 	def is_collision_with_snake_body(self, snake):
 		for i in range(1, len(snake)):
-			check_x = (self.snake[0][0] > snake[i][0] - 7 
-						and self.snake[0][0] < snake[i][0] + 7)
-			check_y = (self.snake[0][1] > snake[i][1] - 7
-						and self.snake[0][1] < snake[i][1] + 7)
+			check_x = (self.snake[0][0] > snake[i][0] - 10
+						and self.snake[0][0] < snake[i][0] + 10)
+			check_y = (self.snake[0][1] > snake[i][1] - 10
+						and self.snake[0][1] < snake[i][1] + 10)
 			if check_x and check_y:
 				return True
 	
