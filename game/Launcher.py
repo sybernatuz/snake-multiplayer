@@ -8,6 +8,7 @@ class Launcher:
     """ Initialize the game with all the snakes and their directions """
     def __init__(self):
         self.flag = 1
+        self.one_player = False
         self.directions = {
             1 : 'bas',
             2 : 'haut',
@@ -23,7 +24,7 @@ class Launcher:
         self.apple = Apple()
         self.sqlManager = SqlLiteManager()
         self.window = Window(self)
-        self.apple.add_apple(self.window.can, None)
+        self.apple.add_apple(self.window.can, None, self.one_player)
         self.window.mainloop()
 
 
@@ -43,10 +44,12 @@ class Launcher:
     """ Display the element when the game is over """
     def game_over(self, winner_color):
         self.window.add_play_again_button(self)
-        self.window.display_score_board(self.sqlManager.find_all())
-        if winner_color is not None:
+        if self.one_player != True:
+            self.window.display_score_board(self.sqlManager.find_all())
             self.window.display_winner(winner_color)
             self.window.insert_winner_input(self)
+        else :
+            self.window.display_apples_tacked_number(self)
 
     """ Destroy the current window and make an ohter"""
     def reset_game(self):
@@ -60,7 +63,7 @@ class Launcher:
         snake.set_position(direction)
         snake.display_snake_head(self.window.can)
         self.flag = snake.check_collision(self.snakes, self.flag, temp_snakes)
-        self.apple.add_apple(self.window.can, snake)
+        self.apple.add_apple(self.window.can, snake, self.one_player)
 
     """ Start the game """
     def new_game(self, players_number):
@@ -75,6 +78,8 @@ class Launcher:
             del self.snakes[3]
         if players_number < 2:
             del self.snakes[2]
+        if players_number == 1:
+            self.one_player = True
     	
     """ Change the snake user direction when press a key """
     def set_direction(self, event, player, direction):

@@ -129,3 +129,9 @@ class Window(Tk):
 		text_board = Label(self, text=winner_color + " gagne" , fg='green', font=("Arial", 20))
 		text_board.pack()
 		text_board.place(x=180, y=400)
+	
+	""" Display the number of apples tacked when only one player"""
+	def display_apples_tacked_number(self, game):
+		text_board = Label(self, text=str(game.apple.count) + " apples tacked" , fg='green', font=("Arial", 20))
+		text_board.pack()
+		text_board.place(x=150, y=540)

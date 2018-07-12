@@ -6,15 +6,18 @@ class Apple:
 	def __init__(self):
 		self.x = randrange(5, 495)
 		self.y = randrange(5, 495)
+		self.count = 0
 	
 	""" Add an apple at the same place if she isn't tacked. 
 	Else move the apple and add part to the snake """
-	def add_apple(self, can, snake):
+	def add_apple(self, can, snake, one_player):
 		if snake is None or not self.is_apple_tacked(snake.snake):
 			return can.create_rectangle(
 										self.x, self.y, 
 										self.x + 5, self.y + 5, 
 										outline='green', fill='black')
+		if one_player == True:
+			self.count += 1
 		snake.increase_body_length()
 		self.move_apple(can)
 	
