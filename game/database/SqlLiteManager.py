@@ -10,7 +10,7 @@ class SqlLiteManager:
 
 	""" Get all elements (players, vicotries)"""
 	def find_all(self):
-		self.c.execute("SELECT * FROM snake")
+		self.c.execute("SELECT * FROM snake ORDER BY win ASC")
 		return self.c.fetchall()
 
 	""" Create the table snake """
